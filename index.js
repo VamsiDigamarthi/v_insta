@@ -25,8 +25,8 @@ mongoose
   )
   .catch((error) => console.log(`this is db not connected ${error}`));
 
-// app.get("/", (req, res) => {
-//   res.json("hellow wordl");
-// });
+app.get("/", (req, res) => {
+  res.json("hellow wordl");
+});
 
 app.use("/auth", AuthRoute);
