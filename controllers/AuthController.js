@@ -1,12 +1,9 @@
 import UserModel from "../models/UserModel.js";
-import bcrypt from "bcrypt";
+
 import jwt from "jsonwebtoken";
 
 // Register new user
 export const registerUser = async (req, res) => {
-  const salt = await bcrypt.genSalt(10);
-  const hashedPass = await bcrypt.hash(req.body.password, salt);
-  req.body.password = hashedPass;
   const newUser = new UserModel(req.body);
   const { email } = req.body;
   try {
@@ -39,9 +36,9 @@ export const loginUser = async (req, res) => {
     const user = await UserModel.findOne({ email: email });
 
     if (user) {
-      const validity = await bcrypt.compare(password, user.password);
+      // const validity = await bcrypt.compare(password, user.password);
 
-      if (!validity) {
+      if (user.password !== password) {
         res.status(400).json("wrong password");
       } else {
         const token = jwt.sign(
